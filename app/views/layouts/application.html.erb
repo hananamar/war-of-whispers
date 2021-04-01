@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html class="h-100">
+  <head>
+    <title>War Of Whispers Loyalty Generator</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body class="h-100">
+    <div class="container py-5 d-flex flex-column h-100 align-items-center">
+
+      <div class="content-wrapper flex-1 text-center">
+        <%= yield %>
+      </div>
+
+      <footer class="py-3 mt-auto text-center">
+
+        <%= yield :footer %>
+
+        <p>
+          By Hanan Amar
+          |
+          <%= link_to 'GitHub', 'https://github.com/hananamar/war-of-whispers', target: '_blank' %>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

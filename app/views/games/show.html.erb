@@ -1,0 +1,52 @@
+<div class="game-reveal-wrapper">
+  <% @game.players_indexes.each do |player_num| %>
+    <% player_index = player_num - 1 %> <%# player_num starts with 1, not 0! %>
+    <% faction_num = @game.player_to_factions_array[player_index] %>
+    <h3 class="pre-reveal-info" id="pre-reveal-info-<%= player_num %>">
+      <%= image_tag WarOfWhispers.players_map[faction_num][:image], size: '90x90', class: 'faction-image' %>
+      "<%= WarOfWhispers.players_map[faction_num][:name] %>" Player: prepare to see your loyalties
+    </h3>
+
+    <div class="player-loyalties-board" id="player-<%= player_num %>-loyalties-board">
+
+      <h3>
+        <%= image_tag WarOfWhispers.players_map[faction_num][:image], size: '90x90', class: 'faction-image' %>
+        "<%= WarOfWhispers.players_map[faction_num][:name] %>" Player: here are your loyalties
+      </h3>
+
+      <div class="row">
+        <% @game.player_loyalties_hash[player_num.to_s].each_with_index do |empire_num, position_num| %>
+          <div class="col loyalty-position">
+            <%= image_tag WarOfWhispers.loyalty_map[empire_num][:image], alt: WarOfWhispers.loyalty_map[empire_num][:name], class: 'empire-image mx-auto', size: '90x90' %>
+            <span class="loyalty-position-name"><%= WarOfWhispers.loyalty_names[position_num][:name] %></span>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+
+  <p class="pre-reveal-button-wrapper my-5">
+    <%= link_to 'Click here to reveal', 'javascript:void(0)', data: {next_player: 1}, class: 'btn btn-primary btn-fw' %>
+  </p>
+
+  <p class="after-reveal-button-wrapper my-5">
+    <%= link_to 'Click here when done', 'javascript:void(0)', data: {next_player: 2, last_player: @game.players_count}, class: 'btn btn-primary btn-fw' %>
+  </p>
+
+  <div class="end-reveals">
+    <h4>All faction loyalties have bee revealed,</h4>
+    <h3 class="mb-5">Good Luck!</h3>
+    <%= link_to 'Reveal Loyalties Again', 'javascript:void(0)', class: 'btn btn-primary btn-fw restart-reveals mb-3 d-block mx-auto' %>
+    <%= link_to 'New Game', new_game_path, class: 'btn btn-success btn-fw mb-3 d-block mx-auto' %>
+  </div>
+</div>
+
+
+<% content_for :footer do %>
+  <p>
+    <%= link_to 'Change Game Settings', edit_game_path(@game), class: 'btn btn-danger btn-fw mb-3 d-block mx-auto' %>
+    <%= link_to 'New Game', new_game_path, class: 'btn btn-success btn-fw mb-3 d-block mx-auto' %>
+  </p>
+<% end %>
+

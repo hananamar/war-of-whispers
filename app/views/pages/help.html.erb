@@ -1,0 +1,57 @@
+
+<header class="mb-3">
+  <h3>Help</h3>
+</header>
+
+<div class="help-container text-left">
+  <div class="help-topic">
+    <h4>Terminology</h4>
+    <p>Throughout this page and the rest of this site the following terms are used:</p>
+
+    <ul>
+      <li class="help-list-item">
+        <u>Faction:</u> One of the 4 playable spy organizations: <%= WarOfWhispers.players_map.values.map{|h| h[:name] }.to_sentence %>.
+      </li>
+      <li class="help-list-item">
+        <u>Empire:</u> One of the 5 empires in the game: <%= WarOfWhispers.loyalty_map.values.map{|h| h[:name] }.to_sentence %>.
+      </li>
+      <li class="help-list-item">
+        <u>Loyalty:</u> A position on a faction's loyalty board. Possible loyalties are <%= WarOfWhispers.loyalty_names.values.map{|h| h[:name] }.to_sentence %>.
+      </li>
+    </ul>
+  </div>
+
+  <div class="help-topic">
+    <h4>Shuffling Methods</h4>
+    <p>There are <%= Game::SHUFFLE_METHODS.size %> methods to choose from when creating a new game:</p>
+
+    <ul>
+      <li class="help-list-item">
+        <u>Completely random:</u> There are no constraints. <br>This is similar to the base game's method of setting up loyalties.
+      </li>
+      <li class="help-list-item">
+        <u>Devout must be unique:</u> Guarantees that the "Devout" (1st) loyalty is different for each player. <br>This is similar to the variant proposed by the designer <%= link_to 'here', 'https://boardgamegeek.com/thread/2331013/variants' %>.
+      </li>
+      <li class="help-list-item">
+        <u>Devout and Opposed must be unique:</u> Guarantees that both the "Devout" (1st) and "Opposed" (5th) loyalties are different for each player.
+      </li>
+      <li class="help-list-item">
+        <u>All factions have at least 2 unique loyalties:</u> Each pair of factions will have at least 2 loyalties that are in different positions.
+      </li>
+      <li class="help-list-item">
+        <u>All factions have at least 3 unique loyalties:</u> Each pair of factions will have at least 3 loyalties that are in different positions.
+      </li>
+      <li class="help-list-item">
+        <u>All factions have at least 4 unique loyalties:</u> Each pair of factions will have at least 4 loyalties that are in different positions.
+      </li>
+      <li class="help-list-item">
+        <u>Cyclical - 3 or 4 players only:</u> Each faction's "Devout" loyalty will be the "Opposed" loyalty of another player, forming a circular relationship between all players. Whether you are using 3 or 4 players will determine which other loyalties will be cyclical. Some loyalties will be identical for all player.
+      </li>
+      <li class="help-list-item">
+        <u>Teams - 4 players only:</u> The players will form 2 teams, where each team has the same 2 empires in it's "Devout" and "Dutiful" loyalties, and the same 2 empires in it's "Unallied" and "Opposed" loyalties. The team members will have different loyalties within this setup. The "Affiliated" (3rd) loyalty will be identical for all player.
+      </li>
+    </ul>
+  </div>
+</div>
+
+<%= link_to 'Start a New Game', new_game_path, class: 'btn btn-success btn-fw mb-3' %><br>

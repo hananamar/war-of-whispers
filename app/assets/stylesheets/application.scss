@@ -1,0 +1,99 @@
+@import "bootstrap";
+
+body{
+  background: #333;
+  color: #fff;
+}
+
+.btn.btn-fw{
+  width: 300px;
+  max-width: 100%;
+}
+
+#game-form{
+  .field{
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    & > label{
+      font-size: 1.25rem;
+      text-decoration: underline;
+    }
+  }
+  .faction-options-wrapper{
+    .faction-option{
+      label{
+        padding: 12px 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        width: 100%;
+        max-width: 240px;
+
+        span.faction-name{
+          display: inline-block;
+          min-height: 50px;
+        }
+        img.faction-image{
+          width: 90px;
+          height: 90px;
+          border-radius: 20px;
+          padding: 0;
+          margin: 0;
+          border: 5px solid black;
+        }
+      }
+      & > input{
+        display: none;
+
+        &:checked + label{
+          background: #8a8;
+          color: black;
+          span.faction-name{
+            // font-weight: bold;
+          }
+          img.faction-image{
+            border-color: gold;
+          }
+        }
+      }
+    }
+  }
+
+  #error_explanation{
+    background: #722;
+    border: solid red;
+    border-width: 0 0 0 5px;
+    padding: 5px 10px;
+  }
+
+}
+
+
+.game-reveal-wrapper{
+  .pre-reveal-info:not(#pre-reveal-info-1){ display: none; }
+  .after-reveal-button-wrapper, .end-reveals{ display: none; }
+
+  .player-loyalties-board{
+    display: none;
+    .loyalty-position{
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      .empire-image {
+        border-radius: 90px;
+      }
+    }
+  }
+
+  .faction-image{
+    border-radius: 20px;
+  }
+}
+
+.help-container{
+  .help-topic{
+    margin-bottom: 20px;
+    ul li.help-list-item{
+      margin-bottom: 10px;
+    }
+  }
+}
