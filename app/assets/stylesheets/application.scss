@@ -45,16 +45,35 @@ body{
         display: none;
 
         &:checked + label{
-          background: #8a8;
+          background: #9c9;
           color: black;
           span.faction-name{
             // font-weight: bold;
           }
           img.faction-image{
-            border-color: gold;
+            border-color: #4991e7;
           }
         }
       }
+    }
+  }
+
+  .shuffle-option{
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    &.active{
+      background-color: #9c9;
+      color: black;
+    }
+    label{
+      cursor: pointer;
+      margin: 0;
+    }
+
+    &:hover{
+      border-color: #9c9;
     }
   }
 

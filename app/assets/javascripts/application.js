@@ -46,6 +46,14 @@ document.addEventListener("turbolinks:load", function() {
   })
 
   $('.restart-reveals').click(restart_reveals);
+
+  $('#game-form .shuffle-option').click(function(){
+    $('#game-form .shuffle-option').removeClass('active');
+    if ($(this).find('input').is(':checked')) {
+      $(this).addClass('active');
+    }
+  });
+  $('#game-form .shuffle-option input:checked').closest('.shuffle-option').click();
 })
 
 
