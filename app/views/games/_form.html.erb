@@ -20,7 +20,7 @@
           WarOfWhispers.players_map.to_a.map{|a| [a.first, a.last.transform_keys{|k| "data-#{k}"}] },
           :first,
           :last) do |b|
-            content_tag(:div, class: 'faction-option col-md-3 col-sm-6 col-12') do
+            content_tag(:div, class: 'faction-option col-md-3 col-6') do
               b.check_box + b.label{ content_tag(:span, b.text["data-name"], class: 'faction-name') + tag(:br) + image_tag(b.text["data-image"], class: 'faction-image') }
             end
           end
@@ -30,7 +30,17 @@
 
   <div class="field">
     <%= form.label :shuffle_method, 'Choose a Method for Shuffling Loyalties' %><br>
-    <%= form.select :shuffle_method, t('activerecord.attributes.game.shuffle_methods').invert %><br><br>
+    <%=
+      form.collection_radio_buttons(:shuffle_method,
+        t('activerecord.attributes.game.shuffle_methods').invert,
+        :last,
+        :first) do |b|
+          content_tag(:div, class: 'shuffle-option col-12 text-left') do
+            b.label(class: 'd-flex'){ b.radio_button(class: 'mt-1 mb-auto') + content_tag(:span, b.text, class: 'ml-3') }
+          end
+        end
+    %>
+    <%#= form.select :shuffle_method, t('activerecord.attributes.game.shuffle_methods').invert %><br><br>
     <%= link_to 'Shuffling Methods Explanation', help_page_path, target: '_blank', class: 'text-white' %>
   </div>
 
