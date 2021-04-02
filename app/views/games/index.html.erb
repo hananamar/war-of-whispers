@@ -1,26 +1,48 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Games</h1>
+<h2 class="mb-5"><%= @games.size %> Games have been generated.</h2>
 
-<table>
+<h4>Statistics by Player Count:</h4>
+
+<table class="table table-striped mx-auto table-condensed text-white table-bordered mb-5">
   <thead>
     <tr>
-      <th>Players count</th>
-      <th>Player loyalties hash</th>
-      <th>Player end ranking</th>
-      <th colspan="3"></th>
+      <th>Players</th>
+      <th>Games</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @games.each do |game| %>
+    <tr>
+      <th>2 Players</th>
+      <td><%= @games.where("cardinality(player_to_factions_array) = 2").size %></td>
+    </tr>
+    <tr>
+      <th>3 Players</th>
+      <td><%= @games.where("cardinality(player_to_factions_array) = 3").size %></td>
+    </tr>
+    <tr>
+      <th>4 Players</th>
+      <td><%= @games.where("cardinality(player_to_factions_array) = 4").size %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Statistics by Shuffle Methods:</h4>
+
+<% @shuffle_methods = @games.group(:shuffle_method).select('shuffle_method, COUNT(shuffle_method) AS shuffle_method_count') %>
+
+<table class="table table-striped mx-auto table-condensed text-white table-bordered mb-5">
+  <thead>
+    <th>Method</th>
+    <th>Games</th>
+  </thead>
+
+  <tbody>
+    <% @shuffle_methods.each do |result| %>
       <tr>
-        <td><%= game.players_count %></td>
-        <td><%= game.player_loyalties_hash %></td>
-        <td><%= game.player_end_ranking %></td>
-        <td><%= link_to 'Show', game %></td>
-        <td><%= link_to 'Edit', edit_game_path(game) %></td>
-        <td><%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= t('activerecord.attributes.game.shuffle_methods')[result.shuffle_method.to_sym] %></td>
+        <td><%= result.shuffle_method_count %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +50,4 @@
 
 <br>
 
-<%= link_to 'New Game', new_game_path %>
+<%= link_to 'New Game', new_game_path, class: 'btn btn-success btn-fw' %>
