@@ -77,7 +77,7 @@ function end_reveals(){
 function restart_reveals(){
   $('.end-reveals').hide();
   $('.pre-reveal-button-wrapper a').data('next-player', 1);
-  $('.after-reveal-button-wrapper').data('next-player', 2);
+  $('.after-reveal-button-wrapper a').data('next-player', 2);
   prepare_for_next_player(1);
 }
 
