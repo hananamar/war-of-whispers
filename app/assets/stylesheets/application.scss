@@ -3,6 +3,10 @@
 body{
   background: #333;
   color: #fff;
+
+  & > .container{
+    min-height: 500px;
+  }
 }
 
 .btn.btn-fw{
@@ -98,6 +102,8 @@ body{
       display: flex;
       flex-direction: column;
       .empire-image {
+        width: 100%;
+        height: auto;
         border-radius: 90px;
       }
     }

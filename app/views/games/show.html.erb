@@ -3,20 +3,20 @@
     <% player_index = player_num - 1 %> <%# player_num starts with 1, not 0! %>
     <% faction_num = @game.player_to_factions_array[player_index] %>
     <h3 class="pre-reveal-info" id="pre-reveal-info-<%= player_num %>">
-      <%= image_tag WarOfWhispers.players_map[faction_num][:image], size: '90x90', class: 'faction-image' %>
+      <%= image_tag WarOfWhispers.players_map[faction_num][:image], size: '90x90', class: 'faction-image d-block mx-auto' %>
       "<%= WarOfWhispers.players_map[faction_num][:name] %>" Player: prepare to see your loyalties
     </h3>
 
     <div class="player-loyalties-board" id="player-<%= player_num %>-loyalties-board">
 
+      <%= image_tag WarOfWhispers.players_map[faction_num][:image], size: '90x90', class: 'faction-image d-block mx-auto' %>
       <h3>
-        <%= image_tag WarOfWhispers.players_map[faction_num][:image], size: '90x90', class: 'faction-image' %>
         "<%= WarOfWhispers.players_map[faction_num][:name] %>" Player: here are your loyalties
       </h3>
 
       <div class="row">
         <% @game.player_loyalties_hash[player_num.to_s].each_with_index do |empire_num, position_num| %>
-          <div class="col loyalty-position">
+          <div class="col loyalty-position px-2 px-md-3">
             <%= image_tag WarOfWhispers.loyalty_map[empire_num][:image], alt: WarOfWhispers.loyalty_map[empire_num][:name], class: 'empire-image mx-auto', size: '90x90' %>
             <span class="loyalty-position-name"><%= WarOfWhispers.loyalty_names[position_num][:name] %></span>
           </div>
