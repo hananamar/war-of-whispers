@@ -6,6 +6,8 @@ class GamesController < ApplicationController
   end
 
   def show
+    # @tracks_folder_num = rand(1..4)
+    @tracks_folder_num = 2
   end
 
   def new

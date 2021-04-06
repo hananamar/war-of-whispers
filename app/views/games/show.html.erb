@@ -1,8 +1,22 @@
 <div class="game-reveal-wrapper">
+
+  <div id="begin-reveal-wrapper">
+    <h2 class="mb-5">Your game is ready!</h2>
+    <h4 class="mb-3">Each player will in turn be shown their generated loyalty setup.</h4>
+    <h4 class="mb-5">Click the button below to start.</h4>
+    <%= link_to 'Start!', 'javascript:void(0)', id: 'start-button', class: 'btn btn-primary btn-fw' %>
+  </div>
+
   <% @game.players_indexes.each do |player_num| %>
     <% player_index = player_num - 1 %> <%# player_num starts with 1, not 0! %>
     <% faction_num = @game.player_to_factions_array[player_index] %>
     <h3 class="pre-reveal-info" id="pre-reveal-info-<%= player_num %>">
+      <% if @game.should_play_audio %>
+        <audio preload="none">
+          <source src="<%= "/assets/factions/version #{@tracks_folder_num}/#{WarOfWhispers.players_map[faction_num][:mp3]}" %>" type="audio/mpeg">
+        </audio>
+      <% end %>
+
       <%= image_tag WarOfWhispers.players_map[faction_num][:image], size: '90x90', class: 'faction-image d-block mx-auto' %>
       "<%= WarOfWhispers.players_map[faction_num][:name] %>" Player: prepare to see your loyalties
     </h3>

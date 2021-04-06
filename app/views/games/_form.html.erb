@@ -44,6 +44,20 @@
     <%= link_to 'Shuffling Methods Explanation', help_page_path, target: '_blank', class: 'text-white' %>
   </div>
 
+  <div class="field">
+    <%= form.label :should_play_audio, 'Play Sound? (recommended)' %><br>
+    <%=
+      form.collection_radio_buttons(:should_play_audio,
+        [['Yes', true], ['No', false]],
+        :last,
+        :first) do |b|
+          content_tag(:div, class: 'shuffle-option col-12 text-left') do
+            b.label(class: 'd-flex'){ b.radio_button(class: 'mt-1 mb-auto') + content_tag(:span, b.text, class: 'ml-3') }
+          end
+        end
+    %>
+  </div>
+
   <div class="actions mt-5">
     <%= form.submit value: 'Generate Game', class: 'btn btn-success' %>
 

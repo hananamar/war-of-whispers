@@ -92,7 +92,8 @@ body{
 
 
 .game-reveal-wrapper{
-  .pre-reveal-info:not(#pre-reveal-info-1){ display: none; }
+  .pre-reveal-info{ display: none; }
+  .pre-reveal-button-wrapper{ display: none; }
   .after-reveal-button-wrapper, .end-reveals{ display: none; }
 
   .player-loyalties-board{

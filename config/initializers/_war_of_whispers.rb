@@ -21,10 +21,10 @@ module WarOfWhispers
 
   def self.players_map
     {
-      0 => {name: 'The Pale Raven', color: 'white', image: 'raven.jpg'},
-      1 => {name: 'Cult of the Rat', color: 'orange', image: 'rat.jpg'},
-      2 => {name: 'The Supplicant Spider', color: 'black', image: 'spider.jpg'},
-      3 => {name: 'The Endless Serpent', color: 'purple', image: 'serpent.jpg'},
+      0 => {name: 'The Pale Raven', color: 'white', image: 'raven.jpg', mp3: 'pale raven'},
+      1 => {name: 'Cult of the Rat', color: 'orange', image: 'rat.jpg', mp3: 'cult of the rat'},
+      2 => {name: 'The Supplicant Spider', color: 'black', image: 'spider.jpg', mp3: 'supplicant spider'},
+      3 => {name: 'The Endless Serpent', color: 'purple', image: 'serpent.jpg', mp3: 'endless serpent'},
     }
   end
 end
