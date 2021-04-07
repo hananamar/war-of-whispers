@@ -13,7 +13,7 @@
     <h3 class="pre-reveal-info" id="pre-reveal-info-<%= player_num %>">
       <% if @game.should_play_audio %>
         <audio preload="none">
-          <source src="<%= "/assets/factions/version_#{@tracks_folder_num}/#{WarOfWhispers.players_map[faction_num][:mp3]}" %>" type="audio/mpeg">
+          <source src="<%= audio_path("factions/version_#{@tracks_folder_num}/#{WarOfWhispers.players_map[faction_num][:mp3]}") %>" type="audio/mpeg">
         </audio>
       <% end %>
 
