@@ -17,22 +17,27 @@
         <%= yield %>
       </div>
 
-      <footer class="py-3 mt-auto text-center">
+      <footer class="pb-3 pt-5 mt-auto text-center">
 
         <%= yield :footer %>
 
         <p>
-          Website By Hanan Amar
-          |
-          <%= link_to 'GitHub', 'https://github.com/hananamar/war-of-whispers', target: '_blank' %>
+          Website By
+          <%= link_to 'Hanan Amar', 'https://github.com/hananamar', target: '_blank', class: 'text-warning' %>
 
 
+          <%#= link_to 'GitHub', 'https://github.com/hananamar/war-of-whispers', target: '_blank', class: 'text-warning' %>
+        </p>
+
+        <p>
+          Narration By
+          <%= link_to 'Paul Casselle', 'https://www.fiverr.com/paulcasselle/produce-professional-narration-and-voice-recordings', target: '_blank', class: 'text-warning' %>
         </p>
 
         <p>
           <small>
             War of Whispers was designed by Jeremy Stoltzfus, and published by Starling Games.<br> All rights to the game and/or its design are reserved.<br>
-            This site and/or any of its functions were created for personal use only, and do not intend to infringe apon those rights.
+            This site and/or any of its functions were created for personal use only, and do not intend to infringe apon those rights.<br>
           </small>
         </p>
       </footer>
