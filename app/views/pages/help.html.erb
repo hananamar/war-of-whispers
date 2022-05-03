@@ -27,28 +27,32 @@
 
     <ul>
       <li class="help-list-item">
-        <u>Completely random:</u> There are no constraints. <br>This is similar to the base game's method of setting up loyalties.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.completely_random') %>:</u> There are no constraints. <br>This is similar to the base game's method of setting up loyalties.
       </li>
       <li class="help-list-item">
-        <u>Devout must be unique:</u> Guarantees that the "Devout" (1st) loyalty is different for each player. <br>This is similar to the variant proposed by the designer <%= link_to 'here', 'https://boardgamegeek.com/thread/2331013/variants' %>.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.empires_balance') %>:</u> The loyalties will be detemined in such a way that each empire's total support from all players will be balanced.
+        <!-- <br>You can use the "slack" parameter to allow some more flexibility. Slack = 0 guarantees the result will be as balanced as it can get, slack = 1 is also very balanced, but a bit less strict, and with slack = 2 the balance is still there, but there is also much more variance.-->
       </li>
       <li class="help-list-item">
-        <u>Devout and Opposed must be unique:</u> Guarantees that both the "Devout" (1st) and "Opposed" (5th) loyalties are different for each player.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.unique_first') %>:</u> Guarantees that the "Devout" (1st) loyalty is different for each player. <br>This is similar to the variant proposed by the designer <%= link_to 'here', 'https://boardgamegeek.com/thread/2331013/variants' %>.
       </li>
       <li class="help-list-item">
-        <u>All factions have at least 2 unique loyalties:</u> Each pair of factions will have at least 2 loyalties that are in different positions.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.unique_first_and_last') %>:</u> Guarantees that both the "Devout" (1st) and "Opposed" (5th) loyalties are different for each player.
       </li>
       <li class="help-list-item">
-        <u>All factions have at least 3 unique loyalties:</u> Each pair of factions will have at least 3 loyalties that are in different positions.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.at_least_2_unique') %>:</u> Each pair of factions will have at least 2 loyalties that are in different positions.
       </li>
       <li class="help-list-item">
-        <u>All factions have at least 4 unique loyalties:</u> Each pair of factions will have at least 4 loyalties that are in different positions.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.at_least_3_unique') %>:</u> Each pair of factions will have at least 3 loyalties that are in different positions.
       </li>
       <li class="help-list-item">
-        <u>Cyclical - 3 or 4 players only:</u> Each faction's "Devout" loyalty will be the "Opposed" loyalty of another player, forming a circular relationship between all players. Whether you are using 3 or 4 players will determine which other loyalties will be cyclical. Some loyalties will be identical for all player.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.at_least_4_unique') %>:</u> Each pair of factions will have at least 4 loyalties that are in different positions.
       </li>
       <li class="help-list-item">
-        <u>Teams - 4 players only:</u> The players will form 2 teams, where each team has the same 2 empires in it's "Devout" and "Dutiful" loyalties, and the same 2 empires in it's "Unallied" and "Opposed" loyalties. The team members will have different loyalties within this setup. The "Affiliated" (3rd) loyalty will be identical for all player.
+        <u><%= t('activerecord.attributes.game.shuffle_methods.cyclical') %>:</u> Each faction's "Devout" loyalty will be the "Opposed" loyalty of another player, forming a circular relationship between all players. Whether you are using 3 or 4 players will determine which other loyalties will be cyclical. Some loyalties will be identical for all player.
+      </li>
+      <li class="help-list-item">
+        <u><%= t('activerecord.attributes.game.shuffle_methods.teams') %>:</u> The players will form 2 teams, where each team has the same 2 empires in it's "Devout" and "Dutiful" loyalties, and the same 2 empires in it's "Unallied" and "Opposed" loyalties. The team members will have different loyalties within this setup. The "Affiliated" (3rd) loyalty will be identical for all player.
       </li>
     </ul>
   </div>

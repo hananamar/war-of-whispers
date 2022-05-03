@@ -1,8 +1,10 @@
 class Game < ApplicationRecord
   DEFAULT_METHOD = :unique_first_and_last
+  DEFAULT_SLACK = 0.0
   SHUFFLE_METHODS = %i[
     unique_first
     unique_first_and_last
+    empires_balance
     teams
     cyclical
     completely_random
@@ -20,13 +22,17 @@ class Game < ApplicationRecord
   attr_accessor :should_generate_loyalty_hash
 
   def save_loyalty_hash
-    self.player_loyalties_hash = generate_loyalty_hash(method: self.shuffle_method.to_sym || DEFAULT_METHOD)
+    method_sym = self.shuffle_method.to_sym || DEFAULT_METHOD
+    # overriding slack: 2p -> 2, 3p -> 1, 4p -> 0
+    self.empires_balance_slack = 4 - players_count if method_sym == :empires_balance
+
+    self.player_loyalties_hash = generate_loyalty_hash(method: method_sym)
     self.should_generate_loyalty_hash = false
     save!
   end
 
   def self.permitted_attributes
-    %i[player_loyalties_hash player_end_ranking shuffle_method] + [{player_to_factions_array: []}]
+    %i[player_loyalties_hash player_end_ranking shuffle_method empires_balance_slack] + [{player_to_factions_array: []}]
   end
 
   def should_generate_loyalty_hash!
@@ -54,7 +60,7 @@ class Game < ApplicationRecord
     self.player_to_factions_array = player_to_factions_array.compact
   end
 
-  def generate_loyalty_hash(method: DEFAULT_METHOD)
+  def generate_loyalty_hash(method: DEFAULT_METHOD, slack: DEFAULT_SLACK)
     # generate empty loyalty arrays for each player
     @temp_loyalty_hash = players_indexes.each_with_object({}) do |k, h|
       h[k] = Array.new(5)
@@ -67,6 +73,8 @@ class Game < ApplicationRecord
     when :unique_first_and_last
       populate_places_uniquely(places: [0,-1])
       populate_rest
+    when :empires_balance
+      generate_empire_balance(slack: empires_balance_slack)
     when :teams
       raise 'Must be played with 4 players' if self.players_count != 4
       seed = WarOfWhispers.loyalty_map.keys.shuffle
@@ -144,6 +152,53 @@ class Game < ApplicationRecord
         @temp_loyalty_hash[k][i] = (WarOfWhispers.loyalty_map.keys - @temp_loyalty_hash[k].compact).sample if v.nil?
       end
     end
+  end
+
+  def generate_empire_balance(slack: DEFAULT_SLACK)
+    @p1_int = (0..4).to_a
+    @vals_to_int = (0..4).to_a.reverse.map{|x| 10**x }
+    @score_multipliers = WarOfWhispers.loyalty_names.values.map{|o| o[:multiplier] }
+    mean_score = @score_multipliers.sum(0.0) / @score_multipliers.length
+    mean_score_by_playercount = mean_score * players_count
+    @max_empire_score = (mean_score_by_playercount + slack.to_f / 2).ceil
+    @min_empire_score = (mean_score_by_playercount - slack.to_f / 2).floor
+
+    possible_setups = [[]] # initialize with possible setups for 1 player (only 1 possibility)
+    for p_index in 2..players_count do
+      # for each subsequent player, add all permutations to all existing setups (ignoring invalid setups that are produced)
+      possible_setups = possible_setups.flat_map do |n_minus_one_setup|
+        @p1_int.permutation(5).to_a.filter_map{|player_n| n_minus_one_setup + [player_n] if is_monotonous_setup?(n_minus_one_setup.last, player_n) && is_balanced_setup?(n_minus_one_setup + [player_n]) }
+      end
+    end
+
+    (possible_setups.sample + [@p1_int]).shuffle.each_with_index{|setup, i| @temp_loyalty_hash[i + 1] = setup }
+    @temp_loyalty_hash
+  end
+
+  def is_balanced_setup?(setup)
+    setup_players_missing = players_count - (setup.size + 1)
+    empires_score_array = calc_empires_score(setup)
+
+    return empires_score_array.values.all? do |value|
+      (value + @score_multipliers.min * setup_players_missing <= @max_empire_score) && (value + @score_multipliers.max * setup_players_missing >= @min_empire_score)
+    end
+  end
+
+  def calc_empires_score(setup)
+    ([@p1_int] + setup).inject({0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0}) do |h, player|
+      player.each_with_index do |empire, loyalty_index|
+        h[empire] += @score_multipliers[loyalty_index]
+      end
+      h
+    end
+  end
+
+  def is_monotonous_setup?(n_minus_one_setup, nth_setup)
+    setup_to_int(n_minus_one_setup) <= setup_to_int(nth_setup)
+  end
+
+  def setup_to_int(setup)
+    setup.nil? ? 0 : setup.join.to_i
   end
 end
 

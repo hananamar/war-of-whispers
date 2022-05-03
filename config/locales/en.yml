@@ -13,6 +13,7 @@ en:
         shuffle_methods:
           unique_first: "\"Devout\" must be unique"
           unique_first_and_last: "\"Devout\" and \"Opposed\" must be unique"
+          empires_balance: Balance empires support
           teams: Teams - 4 players only
           cyclical: Cyclical - 3 or 4 players only
           completely_random: Completely random
