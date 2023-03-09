@@ -90,6 +90,6 @@ production:
   username: hanan
   password: 123qwe
   database: wow_db
-  host:     "/cloudsql/war-of-whispers:us-central1:war-of-whispers"
-  
+  # host:     "/cloudsql/war-of-whispers:us-central1:war-of-whispers"
+
 
