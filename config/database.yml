@@ -79,7 +79,17 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: war_of_whispers_production
-  username: war_of_whispers
-  password: <%= ENV['WAR_OF_WHISPERS_DATABASE_PASSWORD'] %>
+  # <<: *default
+  # database: war_of_whispers_production
+  # username: war_of_whispers
+  # password: <%= ENV['WAR_OF_WHISPERS_DATABASE_PASSWORD'] %>
+  production:
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  username: hanan
+  password: 123qwe
+  database: wow_db
+  host:     "/cloudsql/war-of-whispers:us-central1:war-of-whispers"
+  
+
