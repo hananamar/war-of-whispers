@@ -9,7 +9,7 @@
 
   <% @game.players_indexes.each do |player_num| %>
     <% player_index = player_num - 1 %> <%# player_num starts with 1, not 0! %>
-    <% faction_num = @game.player_to_factions_array[player_index] %>
+    <% faction_num = @game.player_to_factions_array[player_index].to_i %>
     <h3 class="pre-reveal-info" id="pre-reveal-info-<%= player_num %>">
       <% if @game.should_play_audio %>
         <audio preload="none">
@@ -31,7 +31,7 @@
       <div class="row">
         <% @game.player_loyalties_hash[player_num.to_s].each_with_index do |empire_num, position_num| %>
           <div class="col loyalty-position px-2 px-md-3">
-            <%= image_tag WarOfWhispers.loyalty_map[empire_num][:image], alt: WarOfWhispers.loyalty_map[empire_num][:name], class: 'empire-image mx-auto', size: '90x90' %>
+            <%= image_tag WarOfWhispers.loyalty_map[empire_num.to_i][:image], alt: WarOfWhispers.loyalty_map[empire_num.to_i][:name], class: 'empire-image mx-auto', size: '90x90' %>
             <span class="loyalty-position-name"><%= WarOfWhispers.loyalty_names[position_num][:name] %></span>
           </div>
         <% end %>
@@ -59,7 +59,7 @@
 
 <% content_for :footer do %>
   <p>
-    <%= link_to 'Change Game Settings', edit_game_path(@game), class: 'btn btn-danger btn-fw mb-3 d-block mx-auto' %>
+    <%= link_to 'Change Game Settings', edit_game_path(id: 1, game: @game.to_params), class: 'btn btn-danger btn-fw mb-3 d-block mx-auto' %>
     <%= link_to 'New Game', new_game_path, class: 'btn btn-success btn-fw mb-3 d-block mx-auto' %>
   </p>
 <% end %>

@@ -1,4 +1,9 @@
-class Game < ApplicationRecord
+class Game
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
+  include ActiveModel::Validations
+  include ActiveModel::Serialization
+
   DEFAULT_METHOD = :unique_first_and_last
   DEFAULT_SLACK = 0.0
   SHUFFLE_METHODS = %i[
@@ -16,10 +21,31 @@ class Game < ApplicationRecord
   # validates :players_count, presence: true, numericality: {integer_only: true, greater_than_or_equal_to: 2, less_than_or_equal_to: 4 }
   validate :validate_players_count
 
-  before_validation :remove_nil_from_player_to_factions_array, if: :player_to_factions_array_changed?
-  after_save :save_loyalty_hash, if: :should_generate_loyalty_hash
+  # before_validation :remove_nil_from_player_to_factions_array, if: :player_to_factions_array_changed?
+  # after_save :save_loyalty_hash, if: :should_generate_loyalty_hash
 
-  attr_accessor :should_generate_loyalty_hash
+  attr_accessor :should_generate_loyalty_hash, :shuffle_method, :player_to_factions_array, :player_loyalties_hash, :should_play_audio, :empires_balance_slack
+
+  DEFAULTS = {
+    shuffle_method: DEFAULT_METHOD,
+    empires_balance_slack: DEFAULT_SLACK,
+    should_play_audio: true,
+    player_to_factions_array: [],
+  }
+
+  def initialize(attributes = {})
+    attributes.reverse_merge!(DEFAULTS)
+    attributes.each do |name, value|
+      send("#{name}=", value)
+    end
+  end
+
+  def save
+    remove_nil_from_player_to_factions_array
+    # old save
+    save_loyalty_hash if should_generate_loyalty_hash
+    return valid?
+  end
 
   def save_loyalty_hash
     method_sym = self.shuffle_method.to_sym || DEFAULT_METHOD
@@ -28,11 +54,11 @@ class Game < ApplicationRecord
 
     self.player_loyalties_hash = generate_loyalty_hash(method: method_sym)
     self.should_generate_loyalty_hash = false
-    save!
+    self.save
   end
 
   def self.permitted_attributes
-    %i[player_loyalties_hash player_end_ranking shuffle_method empires_balance_slack] + [{player_to_factions_array: []}]
+    %i[player_end_ranking shuffle_method empires_balance_slack should_play_audio] + [{player_to_factions_array: [], player_loyalties_hash: {}}]
   end
 
   def should_generate_loyalty_hash!
@@ -40,11 +66,26 @@ class Game < ApplicationRecord
   end
 
   def players_count
-    @players_count ||= player_to_factions_array.compact.size
+    @players_count ||= player_to_factions_array.select(&:present?).size
   end
 
   def players_indexes
     (1..self.players_count).to_a
+  end
+
+  def persisted?
+    false
+  end
+
+  def to_params
+    {
+      player_loyalties_hash: self.player_loyalties_hash,
+      player_to_factions_array: self.player_to_factions_array,
+      players_count: self.players_count,
+      empires_balance_slack: self.empires_balance_slack,
+      should_play_audio: self.should_play_audio,
+      shuffle_method: self.shuffle_method,
+    }#.to_param
   end
 
   private
@@ -57,7 +98,7 @@ class Game < ApplicationRecord
   end
 
   def remove_nil_from_player_to_factions_array
-    self.player_to_factions_array = player_to_factions_array.compact
+    self.player_to_factions_array = player_to_factions_array.select(&:present?)
   end
 
   def generate_loyalty_hash(method: DEFAULT_METHOD, slack: DEFAULT_SLACK)

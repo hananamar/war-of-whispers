@@ -21,7 +21,7 @@
           :first,
           :last) do |b|
             content_tag(:div, class: 'faction-option col-md-3 col-6') do
-              b.check_box + b.label{ content_tag(:span, b.text["data-name"], class: 'faction-name') + tag(:br) + image_tag(b.text["data-image"], class: 'faction-image') }
+              b.check_box(checked: @game.player_to_factions_array.include?(b.value.to_s)) + b.label{ content_tag(:span, b.text["data-name"], class: 'faction-name') + tag(:br) + image_tag(b.text["data-image"], class: 'faction-image') }
             end
           end
       %>
