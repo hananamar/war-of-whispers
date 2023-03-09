@@ -9,7 +9,11 @@ class GamesController < ApplicationController
 
   def show
     # @tracks_folder_num = rand(1..4)
-    @tracks_folder_num = 2
+    if cookies[:games_played].blank? || cookies[:games_played].to_i <= 1
+      @tracks_folder_num = 2
+    else
+      @tracks_folder_num = rand(1..4)
+    end
   end
 
   def new
@@ -27,6 +31,7 @@ class GamesController < ApplicationController
 
     if @game.save
       # cookies[:game_id] = @game.id
+      cookies[:games_played] = cookies[:games_played].present? ? cookies[:games_played].to_i + 1 : 1
       redirect_to game_path(id: 1, game: @game.to_params), notice: "Game was successfully created."
     else
       render :new, status: :unprocessable_entity
